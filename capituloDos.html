@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CapituloDos</title>
+</head>
+
+<body>
+
+    <script>
+
+        // * piramide 
+        let limite = 10;
+        let palabra;
+        for (let index = 0; index < limite; index++) {
+            palabra = '';
+            for (let i = 0; i <= index; i++) {
+                palabra += '#';
+            }
+            console.log(palabra);
+        }
+
+        // * chessboard
+        let tamaño = 8;
+        let espacio;
+        for (let i = 0; i < tamaño; i++) {
+            espacio = '';
+            for (let h = 0; h <= tamaño / 2; h++) {
+                if (i % 2 == 0) {
+                    espacio += '# ';
+                }
+                else {
+                    espacio += ' #';
+                }
+            }
+            console.log(espacio);
+        }
+
+        let par = 'cama';
+        let impar = 'ron';
+
+        for (let index = 0; index < 100; index++) {
+            if (index % 2 == 0 && index % 3 == 0) {
+                console.log(`${index}: `, par + impar);
+            }
+            else if (index % 2 == 0) {
+                console.log(`${index}: `, par);
+            }
+            else if (index % 3 == 0) {
+                console.log(`${index}: `, impar);
+            }
+        }
+    </script>
+</body>
+
+</html>

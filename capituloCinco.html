@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script src="scripts.js"></script>
+  <script>
+    const unirArreglos = (...arreglos) => {
+      return arreglos.reduce((sum, i) => (sum = [...sum, ...i]));
+    };
+    
+    console.log(unirArreglos([10, 40, 50, 1], [90, 80, 10]));
+    
+    const loop = (valor, test, update, listo) => {
+      valor = update(valor);
+      for (let i = valor; i >= 0; i = update(i)) {
+        if (!test(i)) return;
+        listo(i);
+      }
+    };
+    
+    loop(10, n => n > 0, u => u - 2, console.log);
+    
+    let siempre = (arr, test) => {
+      for (let i = 0; i < arr.length; i++) {
+          console.log(arr[i]);
+        if (!test(arr[i])) return false;
+      }
+      return true;
+    };
+    
+    console.log(siempre([10, 90, 78, 100], i => i < 100));
+    console.log(SCRIPTS);
+    </script>  
+</body>
+</html>

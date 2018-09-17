@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Vector {
+            constructor(alto, ancho) {
+                this.y = alto;
+                this.x = ancho;
+            }
+            sumar({ x, y }) {
+                console.log('hola');
+                return { x: this.x + x, y: this.y + y }
+            }
+            restar({ x, y }) {
+                console.log('hola');
+                return { x: this.x - x, y: this.y - y }
+            }
+            tamaño() {
+                return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+            }
+        }
+
+        class Grupo {
+            constructor() {
+                this.grupo = []
+            }
+            from(arreglo) {
+                return this.grupo = arreglo.filter((v, i, arr) => arr.indexOf(v) === i);
+            }
+            add(numero) {
+                return this.grupo = this.grupo.includes(numero) ? [...this.grupo] : [...this.grupo, numero];
+            }
+            eliminar(numero) {
+                return this.grupo = this.grupo.filter(i => i !== numero);
+            }
+            contiene(numero) {
+                return this.grupo.some(i => i === numero);
+            }
+        }
+        console.log(new Vector(10, 10).sumar(new Vector(20, 10)));
+        console.log(new Vector(3, 4).tamaño());
+        let miGrupo = new Grupo()
+        console.log(miGrupo.from([10, 10, 90, 20]));
+        console.log(miGrupo.add(10));
+        console.log(miGrupo.add(20));
+        console.log(miGrupo.contiene(0))
+
+        for (const iterator of miGrupo.from([10, 39, 90])) {
+            console.log(iterator);
+        }
+        let map = { one: true, two: true, hasOwnProperty: true };
+
+        // Fix this call
+        console.log({}.hasOwnProperty.call(map,"one"));
+    </script>
+</body>
+
+</html>

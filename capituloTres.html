@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        //? minino
+
+        const min = (...args) => {
+            let minimo = args[0];
+            args.map(i => i < minimo ? minimo = i : i);
+            return minimo;
+        }
+        console.log(min(-100, 10, 10, 1, -2));
+
+
+        //? numeros pares
+        const pares = (numero) => {
+            if (numero === 2) {
+                return true;
+            }
+            else if (numero < 0) {
+                return false;
+            }
+            else {
+                return pares(numero - 2);
+            }
+        }
+
+        console.log(pares(20));
+        // ? contador de caracteres 
+
+        const contador = (cadena = '', caracter) => {
+            let miCadena = [...cadena];
+            let tamaño = miCadena.filter(i => i == caracter);
+            return tamaño.length;
+        }
+        console.log(contador('kkk', 'a'));
+    </script>
+</body>
+
+</html>
