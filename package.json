@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "date-names": "^0.1.12",
+    "ordinal": "^1.0.2"
+  }
+}
