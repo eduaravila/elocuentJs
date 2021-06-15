@@ -51,8 +51,19 @@ Group.prototype[Symbol.iterator] = function () {
   return new GroupIterator(this);
 };
 
+let lengSymbol = Symbol("length");
+
+Group.prototype[Symbol.iterator] = function () {
+  return new GroupIterator(this);
+};
+
+Group.prototype[lengSymbol] = (function () {
+  return "Some dump stuff";
+})();
+
 let group = Group.from([10, 20]);
 
+console.log(group[lengSymbol]);
 console.log(group.has(10));
 // → true
 console.log(group.has(30));
