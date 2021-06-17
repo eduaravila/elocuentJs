@@ -112,7 +112,7 @@ function runRobot(state, robot, memory) {
   for (let turn = 0; ; turn++) {
     if (state.parcels.length == 0) {
       console.log(`Done in ${turn} turns`);
-      break;
+      return turns;
     }
     let action = robot(state, memory);
     state = state.move(action.direction);
@@ -120,3 +120,33 @@ function runRobot(state, robot, memory) {
     console.log(`Moved to ${action.direction}`);
   }
 }
+
+const compareRobots = (robots, max = 100) => {
+  let counter = {};
+  for (let i = 0; i < max; i++) {
+    let route = VillageState.random();
+    robots.map((robot, iRobot) =>
+      counter[iRobot]
+        ? (counter[iRobot] = [
+            ...counter[iRobot],
+            runRobot(route, robot, robot.memory),
+          ])
+        : (counter[iRobot] = runRobot(route, robot, robot.memory))
+    );
+  }
+  console.log(counter);
+};
+
+compareRobots(
+  [
+    {
+      robot: routeRobot,
+      memory: [],
+    },
+    {
+      robot: goalOrientedRobot,
+      memory: [],
+    },
+  ],
+  100
+);
