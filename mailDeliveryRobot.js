@@ -15,6 +15,22 @@ const roads = [
   "Shop-Town Hall",
 ];
 
+const mailRoute = [
+  "Alice's House",
+  "Cabin",
+  "Alice's House",
+  "Bob's House",
+  "Town Hall",
+  "Daria's House",
+  "Ernie's House",
+  "Grete's House",
+  "Shop",
+  "Grete's House",
+  "Farm",
+  "Marketplace",
+  "Post Office",
+];
+
 class VillageState {
   constructor(place, parcels) {
     this.place = place;
@@ -111,33 +127,34 @@ function goalOrientedRobot({ place, parcels }, route) {
 function runRobot(state, robot, memory) {
   for (let turn = 0; ; turn++) {
     if (state.parcels.length == 0) {
-      console.log(`Done in ${turn} turns`);
-      return turns;
+      return turn;
     }
     let action = robot(state, memory);
     state = state.move(action.direction);
     memory = action.memory;
-    console.log(`Moved to ${action.direction}`);
+    // console.log(`Moved to ${action.direction}`);
   }
 }
 
 const compareRobots = (robots, max = 100) => {
-  let counter = {};
+  let counter = [];
   for (let i = 0; i < max; i++) {
     let route = VillageState.random();
-    robots.map((robot, iRobot) =>
+    robots.map(({ robot, memory }, iRobot) =>
       counter[iRobot]
         ? (counter[iRobot] = [
             ...counter[iRobot],
-            runRobot(route, robot, robot.memory),
+            runRobot(route, robot, memory),
           ])
-        : (counter[iRobot] = runRobot(route, robot, robot.memory))
+        : (counter[iRobot] = [runRobot(route, robot, memory)])
     );
   }
-  console.log(counter);
+  return counter
+    .map((i) => ({ total: i.reduce((a, b) => a + b), i }))
+    .map(({ total, i }) => ({ average: total / i.length, total, i }));
 };
 
-compareRobots(
+let res = compareRobots(
   [
     {
       robot: routeRobot,
@@ -150,3 +167,4 @@ compareRobots(
   ],
   100
 );
+console.log(res);
