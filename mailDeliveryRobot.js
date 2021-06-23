@@ -113,6 +113,10 @@ function findRoute(graph, from, to) {
   }
 }
 
+const findFastestRoute = (graph,from,to)=>{
+  
+}
+
 function goalOrientedRobot({ place, parcels }, route) {
   if (route.length == 0) {
     let parcel = parcels[0];
@@ -125,6 +129,9 @@ function goalOrientedRobot({ place, parcels }, route) {
   return { direction: route[0], memory: route.slice(1) };
 }
 
+const customRobot=()=>{
+
+}
 function runRobot(state, robot, memory) {
   for (let turn = 0; ; turn++) {
     if (state.parcels.length == 0) {
@@ -169,3 +176,7 @@ let res = compareRobots(
   100
 );
 console.log(res);
+
+let route = VillageState.random();
+console.log(route,roadGraph);
+
