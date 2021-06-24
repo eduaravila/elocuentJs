@@ -1,1 +1,2 @@
 // 08
+"use strict"
