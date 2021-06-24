@@ -107,14 +107,14 @@ function findRoute(graph, from, to) {
     for (let place of graph[at]) {
       if (place == to) return route.concat(place);
       if (!work.some((w) => w.at == place)) {
-        work.push({ at: place, route: route.concat(place) });
+        work.push({ at: place, route: route.concat(place) }); 
       }
     }
   }
 }
 
 const findFastestRoute = (graph,from,to)=>{
-  
+
 }
 
 function goalOrientedRobot({ place, parcels }, route) {
