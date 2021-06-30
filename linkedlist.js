@@ -41,7 +41,6 @@ class LinkedList {
   }
 
   _merge(a, b) {
-    console.log(a,b);
     if (!a) {
       return b;
     }
@@ -63,7 +62,7 @@ class LinkedList {
     return result;
   }
 
-  _mergesort(h) {
+  _quicksort(h) {
     if (!h || !h.next) {
       return h;
     }
@@ -72,14 +71,15 @@ class LinkedList {
     let nexttomiddle = pivot.next;
     pivot.next = null;
 
-    let left = this._mergesort(h);
-    let right = this._mergesort(nexttomiddle);
-    
+    let left = this._quicksort(h);
+    let right = this._quicksort(nexttomiddle);
+    console.log("Left-->",left);
+    console.log("right-->",right);
     return this._merge(left, right);
   }
 
   order() {
-    this.head = this._mergesort(this.head);
+    this.head = this._quicksort(this.head);
   }
 
   getNode(position) {
