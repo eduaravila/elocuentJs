@@ -5,7 +5,7 @@ class Node {
   }
 }
 
-class LinkedList {
+class List {
   constructor() {
     this.head = new Node(null);
     this.tail = this.head;
@@ -26,7 +26,7 @@ class LinkedList {
   }
 
   _quicksortpartition(leftnode, pivot) {
-    let templinked = new LinkedList(null);
+    let templinked = new List(null);
     while (!!leftnode && !!leftnode.val && leftnode.val != pivot.val) {
       while (leftnode.val < pivot.val) {
         leftnode = leftnode.next;
@@ -111,7 +111,7 @@ class LinkedList {
   }
 }
 
-let my = new LinkedList();
+let my = new List();
 my.append(50);
 my.append(20);
 my.append(2);
