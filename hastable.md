@@ -1,4 +1,7 @@
+## Notes to myself
 
+Typescript hashtable
+```typescript 
 // KEY => VALUE
 // a => value the value can be of any type
 // b => value the value can be of any type
@@ -118,3 +121,5 @@ console.log(myhashtable.get_item("march 9"));
 console.log(myhashtable.get_item("new"));
 console.log(myhashtable.get_item("third"));
 console.log(myhashtable.get_item("music"));
+
+```
