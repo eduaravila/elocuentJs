@@ -22,14 +22,19 @@ class HashtableLinear {
 
   add(key: string, val: string) {
     let inx = this._gethash(key);
+    // ? is the inx available
     if (!this.data[inx]) {
       this.data[inx] = { key, val };
       return;
     }
+
+    // go until you find an empty spot or you loop though all the arr
     let index = 0;
     while ((inx + index) % this.size < this.size && !!this.data[inx + index]) {
       index++;
     }
+
+    // is the index still valid
     if (index < this.size) {
       let newinx = (inx + index) % this.size;
       this.data[newinx] = { val, key };
@@ -45,14 +50,16 @@ class HashtableLinear {
     }
     let index = 0;
     while (index < this.size) {
-
+      // if the key is equal to the key we are searching for break the loop
       if (this.data[(index + inx) % this.size]?.key == key) break;
       index++;
     }
 
+    // check if the index is valid
     if (index < this.size) {
       let newinx = (index + inx) % this.size;
 
+    //   if the key exist then return the value
       return this.data[newinx].key == key ? this.data[newinx] : undefined;
     }
 
