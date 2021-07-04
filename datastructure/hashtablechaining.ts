@@ -1,4 +1,3 @@
-
 // KEY => VALUE
 // a => value the value can be of any type
 // b => value the value can be of any type
@@ -50,8 +49,14 @@ class LinkedList {
     }
     let current: LNode = node;
 
-    while (current.next) {
+    while (current.next && current.key != key) {
       current = current.next;
+    }
+    
+    // update the value
+    if (current.key == key) {
+      current.val = val;
+      return;
     }
     current.next = new LNode(val, key);
     this.tail = current.next;
@@ -93,7 +98,7 @@ class HashTable {
     return sum % this.maxsize;
   }
 
-  _set_value(key: string, val: any) {
+  set_value(key: string, val: any) {
     let inx = this._get_hash(key);
 
     if (this.data[inx]) {
@@ -105,14 +110,14 @@ class HashTable {
 }
 
 let myhashtable = new HashTable(5);
-myhashtable._set_value("music", "1");
-myhashtable._set_value("second", "2");
-myhashtable._set_value("third", "3");
-myhashtable._set_value("march 17", "5");
-myhashtable._set_value("march 8", "6");
-myhashtable._set_value("new", "4");
-myhashtable._set_value("march 9", "7");
-myhashtable._set_value("march 6", "8");
+myhashtable.set_value("music", "1");
+myhashtable.set_value("second", "2");
+myhashtable.set_value("third", "3");
+myhashtable.set_value("march 17", "5");
+myhashtable.set_value("march 8", "6");
+myhashtable.set_value("new", "4");
+myhashtable.set_value("march 9", "7");
+myhashtable.set_value("march 6", "8");
 
 console.log(myhashtable.get_item("march 9"));
 console.log(myhashtable.get_item("new"));
