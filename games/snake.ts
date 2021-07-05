@@ -140,7 +140,7 @@ let godown = (snake: Snake, max: number) => {
   let [yp, xp] = snake[snake.length - 1];
   let min = 1;
   let next_y = yp + 1;
-  if (next_y <= 0) {
+  if (next_y >= max) {
     next_y = next_y - max + min;
   }
   snake[snake.length - 1] = [next_y, xp];
