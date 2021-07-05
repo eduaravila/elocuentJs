@@ -11,6 +11,13 @@ enum DIRECTIONS {
   UP,
 }
 
+enum ARROWS {
+  UP = "\u001b[A",
+  DOWN = "\u001b[B",
+  RIGHT = "\u001b[C",
+  LEFT = "\u001b[D",
+}
+
 const DIRECTIONS_ARR = [0, 1, 2, 3];
 
 type Snake = Array<Array<number>>;
@@ -161,7 +168,6 @@ let startsnake = (max: number, size: number = 3): Snake => {
   let y = Math.round(Math.random() * (max - min + 1) + min);
 
   let snake = [[x, y]];
-  console.log(snake);
 
   for (let i = 0; i < size; i++) {
     snake.unshift(next_body_position(snake, snake[0], []));
@@ -206,13 +212,58 @@ function printProgress(content: string) {
 
 const startgame = (snake: Snake, speed: number = 1000) => {
   let index = 0;
-  updategame();
+  let stdin = process.stdin;
+  stdin.setRawMode(true);
+  stdin.resume();
+  stdin.setEncoding("utf8");
 
+  updategame();
+  let update_direction = goright;
   function updategame() {
+    let current_direction = ARROWS.RIGHT;
+
+    stdin.on("data", (key: string) => {
+      if (key === "\u0003") {
+        process.exit();
+      }
+
+      switch (key) {
+        //up
+        case ARROWS.UP:
+          if (current_direction != ARROWS.DOWN) {
+            update_direction = goup;
+            current_direction = ARROWS.UP;
+          }
+          break;
+        //down
+        case ARROWS.RIGHT:
+          if (current_direction != ARROWS.LEFT) {
+            update_direction = goright;
+            current_direction = ARROWS.RIGHT;
+          }
+          break;
+        //right
+        case ARROWS.DOWN:
+          if (current_direction != ARROWS.UP) {
+            update_direction = godown;
+            current_direction = ARROWS.DOWN;
+          }
+          break;
+        //left
+        case ARROWS.LEFT:
+          if (current_direction != ARROWS.RIGHT) {
+            update_direction = goleft;
+            current_direction = ARROWS.LEFT;
+          }
+          break;
+        default:
+          break;
+      }
+    });
+
     let interval = setInterval(() => {
       printplayground(snake, PLAYGROUND_SIZE);
-      godown(snake, PLAYGROUND_SIZE);
-      //   console.log(snake);
+      update_direction(snake, PLAYGROUND_SIZE);
     }, speed);
   }
 };
