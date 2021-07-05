@@ -100,6 +100,60 @@ let goright = (snake: Snake, max: number) => {
   }
 };
 
+let goleft = (snake: Snake, max: number) => {
+  let [yp, xp] = snake[snake.length - 1];
+  let min = 1;
+  let next_x = xp - 1;
+  if (next_x <= 0) {
+    next_x = next_x + max - min;
+  }
+  snake[snake.length - 1] = [yp, next_x];
+
+  let previous = [yp, xp];
+
+  for (let i = snake.length - 2; i >= 0; i--) {
+    let temp = snake[i];
+    snake[i] = previous;
+    previous = temp;
+  }
+};
+
+let goup = (snake: Snake, max: number) => {
+  let [yp, xp] = snake[snake.length - 1];
+  let min = 1;
+  let next_y = yp - 1;
+  if (next_y <= 0) {
+    next_y = next_y + max - min;
+  }
+  snake[snake.length - 1] = [next_y, xp];
+
+  let previous = [yp, xp];
+
+  for (let i = snake.length - 2; i >= 0; i--) {
+    let temp = snake[i];
+    snake[i] = previous;
+    previous = temp;
+  }
+};
+
+let godown = (snake: Snake, max: number) => {
+  let [yp, xp] = snake[snake.length - 1];
+  let min = 1;
+  let next_y = yp + 1;
+  if (next_y <= 0) {
+    next_y = next_y - max + min;
+  }
+  snake[snake.length - 1] = [next_y, xp];
+
+  let previous = [yp, xp];
+
+  for (let i = snake.length - 2; i >= 0; i--) {
+    let temp = snake[i];
+    snake[i] = previous;
+    previous = temp;
+  }
+};
+
 // starts the snake body
 let startsnake = (max: number, size: number = 3): Snake => {
   let min = 1;
@@ -157,7 +211,7 @@ const startgame = (snake: Snake, speed: number = 1000) => {
   function updategame() {
     let interval = setInterval(() => {
       printplayground(snake, PLAYGROUND_SIZE);
-      goright(snake, PLAYGROUND_SIZE);
+      godown(snake, PLAYGROUND_SIZE);
       //   console.log(snake);
     }, speed);
   }
