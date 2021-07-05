@@ -3,6 +3,7 @@ const HORIZONTAL_WALL = " - ";
 const FREE_SPACE = "   ";
 const SNAKE_BODY = " * ";
 const PLAYGROUND_SIZE = 10;
+const FRUIT = "@";
 
 enum DIRECTIONS {
   LEFT,
@@ -21,6 +22,9 @@ enum ARROWS {
 const DIRECTIONS_ARR = [0, 1, 2, 3];
 
 type Snake = Array<Array<number>>;
+
+const random_range = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
 
 const iscorner = (y: number, x: number, size: number): boolean => {
   switch (true) {
@@ -161,11 +165,47 @@ let godown = (snake: Snake, max: number) => {
   }
 };
 
+let eat_up = (ny: number, nx: number): Array<number> => {
+  let min = 1;
+  let next_y = ny - 1;
+  if (next_y <= 0) {
+    next_y = next_y + PLAYGROUND_SIZE - min;
+  }
+  return [next_y, nx];
+};
+
+let eat_down = (ny: number, nx: number): Array<number> => {
+  let min = 1;
+  let next_y = ny + 1;
+  if (next_y >= PLAYGROUND_SIZE) {
+    next_y = next_y - PLAYGROUND_SIZE + min;
+  }
+  return [next_y, nx];
+};
+
+let eat_left = (ny: number, nx: number): Array<number> => {
+  let min = 1;
+  let next_x = nx - 1;
+  if (next_x <= 0) {
+    next_x = next_x + PLAYGROUND_SIZE - min;
+  }
+  return [ny, next_x];
+};
+
+let eat_right = (ny: number, nx: number): Array<number> => {
+  let min = 1;
+  let next_x = nx + 1;
+  if (next_x >= PLAYGROUND_SIZE) {
+    next_x = next_x - PLAYGROUND_SIZE + min;
+  }
+  return [ny, next_x];
+};
+
 // starts the snake body
 let startsnake = (max: number, size: number = 3): Snake => {
   let min = 1;
-  let x = Math.round(Math.random() * (max - min + 1) + min);
-  let y = Math.round(Math.random() * (max - min + 1) + min);
+  let x = random_range(min, max);
+  let y = random_range(min, max);
 
   let snake = [[x, y]];
 
@@ -179,7 +219,60 @@ let startsnake = (max: number, size: number = 3): Snake => {
 const in_snake = (snake: Snake, x: number, y: number): boolean =>
   snake.some(([xs, ys]) => xs == x && ys == y);
 
-const printplayground = (snake: Snake, size: number) => {
+const is_fruit = ([xf, yf]: Array<number>, x: number, y: number): boolean =>
+  xf == x && yf == y;
+
+const get_fruit = (snake: Snake, max: number = PLAYGROUND_SIZE - 1) => {
+  let min = 1;
+  let x = random_range(min, max);
+  let y = random_range(min, max);
+
+  while (!is_available(snake, [x, y])) {
+    x = random_range(min, max);
+    y = random_range(min, max);
+  }
+  return [x, y];
+};
+
+const check_collision = (
+  snake: Snake,
+  fruit: Array<number>,
+  current_direction: ARROWS,
+  cb: Function
+) => {
+  let [y_head, x_head] = snake[snake.length - 1];
+  let [xf, yf] = fruit;
+  if (x_head == xf && y_head == yf) {
+    switch (current_direction) {
+      case ARROWS.UP:
+        snake.push(eat_up(x_head, y_head));
+        break;
+      case ARROWS.DOWN:
+        snake.push(eat_down(x_head, y_head));
+        break;
+      case ARROWS.LEFT:
+        snake.push(eat_left(x_head, y_head));
+        break;
+      case ARROWS.RIGHT:
+        snake.push(eat_right(x_head, y_head));
+        break;
+    }
+    let [xfn, yfn] = get_fruit(snake);
+    fruit[0] = xfn;
+    fruit[1] = yfn;
+  }
+  if (
+    in_snake(
+      snake.slice(0, snake.length - 2),
+      snake[snake.length - 1][0],
+      snake[snake.length - 1][1]
+    )
+  ) {
+    cb();
+  }
+};
+
+const printplayground = (snake: Snake, fruit: Array<number>, size: number) => {
   let playground: Array<Array<string>>;
   let ends = [0, size];
   let inx_snake = 0;
@@ -189,6 +282,10 @@ const printplayground = (snake: Snake, size: number) => {
     process.stdout.clearLine(-1);
     process.stdout.cursorTo(0);
     for (let y = 0; y <= size; y++) {
+      if (is_fruit(fruit, x, y)) {
+        printProgress(FRUIT);
+        continue;
+      }
       if (inx_snake < snake.length && in_snake(snake, x, y)) {
         printProgress(SNAKE_BODY);
         inx_snake++;
@@ -210,7 +307,11 @@ function printProgress(content: string) {
   process.stdout.write(content);
 }
 
-const startgame = (snake: Snake, speed: number = 1000) => {
+const startgame = (
+  snake: Snake,
+  fruit: Array<number>,
+  speed: number = 1000
+) => {
   let index = 0;
   let stdin = process.stdin;
   stdin.setRawMode(true);
@@ -262,12 +363,20 @@ const startgame = (snake: Snake, speed: number = 1000) => {
     });
 
     let interval = setInterval(() => {
-      printplayground(snake, PLAYGROUND_SIZE);
+      console.log(fruit);
+
+      printplayground(snake, fruit, PLAYGROUND_SIZE);
+      check_collision(snake, fruit, current_direction, () => {
+        console.log("Game over");
+
+        clearInterval(interval);
+      });
       update_direction(snake, PLAYGROUND_SIZE);
     }, speed);
   }
 };
 
-let snake = startsnake(PLAYGROUND_SIZE - 1);
+let snake = startsnake(PLAYGROUND_SIZE - 1, 2);
+let fruit = get_fruit(snake);
 
-startgame(snake, 500);
+startgame(snake, fruit, 100);
