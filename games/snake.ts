@@ -3,7 +3,7 @@ const HORIZONTAL_WALL = " - ";
 const FREE_SPACE = "   ";
 const SNAKE_BODY = " * ";
 const PLAYGROUND_SIZE = 10;
-const FRUIT = "@";
+const FRUIT = " @ ";
 
 enum DIRECTIONS {
   LEFT,
@@ -227,7 +227,7 @@ const get_fruit = (snake: Snake, max: number = PLAYGROUND_SIZE - 1) => {
   let x = random_range(min, max);
   let y = random_range(min, max);
 
-  while (!is_available(snake, [x, y])) {
+  while (!in_snake(snake, x, y)) {
     x = random_range(min, max);
     y = random_range(min, max);
   }
@@ -241,25 +241,25 @@ const check_collision = (
   cb: Function
 ) => {
   let [y_head, x_head] = snake[snake.length - 1];
-  let [xf, yf] = fruit;
+  let [yf, xf] = fruit;
   if (x_head == xf && y_head == yf) {
     switch (current_direction) {
       case ARROWS.UP:
-        snake.push(eat_up(x_head, y_head));
+        snake.push(eat_up(y_head, x_head));
         break;
       case ARROWS.DOWN:
-        snake.push(eat_down(x_head, y_head));
+        snake.push(eat_down(y_head, x_head));
         break;
       case ARROWS.LEFT:
-        snake.push(eat_left(x_head, y_head));
+        snake.push(eat_left(y_head, x_head));
         break;
       case ARROWS.RIGHT:
-        snake.push(eat_right(x_head, y_head));
+        snake.push(eat_right(y_head, x_head));
         break;
     }
     let [xfn, yfn] = get_fruit(snake);
-    fruit[0] = xfn;
-    fruit[1] = yfn;
+    fruit[0] = yfn;
+    fruit[1] = xfn;
   }
   if (
     in_snake(
@@ -363,7 +363,9 @@ const startgame = (
     });
 
     let interval = setInterval(() => {
-      console.log(fruit);
+        // log the positions
+    //   console.log(fruit);
+    //   console.log(snake);
 
       printplayground(snake, fruit, PLAYGROUND_SIZE);
       check_collision(snake, fruit, current_direction, () => {
