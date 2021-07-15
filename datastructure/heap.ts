@@ -78,8 +78,9 @@ class Heap {
       } else {
         this._swap(smallest_index, index);
       }
-      
+
       index = smallest_index;
     }
   }
 }
+
