@@ -17,7 +17,7 @@ interface connection {
   [key: string]: string[];
 }
 
-const adjacencylistRepresentation = (
+const adjacencylistRepresentationDirected = (
   nodes: string[],
   connections: Array<Array<string>>,
   memo?: Map<string, Array<string>>
@@ -30,6 +30,20 @@ const adjacencylistRepresentation = (
         .filter(([key, direction], connectionInx) => key == val && direction)
         .map(([_, b]) => b)
     );
+  });
+
+  return memo;
+};
+
+const adjacencylistRepresentationUndirected = (
+  nodes: string[],
+  connections: Array<Array<string>>,
+  memo?: Map<string, Array<string>>
+) => {
+  nodes.forEach((val) => memo.set(val, []));
+  connections.forEach(([a, b]) => {
+    memo.get(a).push(b);
+    memo.get(b).push(a);
   });
 
   return memo;
@@ -55,13 +69,14 @@ const bfshashconnection = (
       if (!visited.has(destination)) {
         visited.add(destination);
         queue.push(destination);
+        console.log(destination);
       }
     }
   }
 };
 
 let graph = adjacencylistRepresentation(airports, routes);
-
-
-
+console.log("====================================");
+console.log(graph);
+console.log("====================================");
 bfshashconnection(graph, "MEX", "LIM");
