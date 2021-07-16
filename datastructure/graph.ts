@@ -19,10 +19,10 @@ interface connection {
 
 const adjacencylistRepresentationDirected = (
   nodes: string[],
-  connections: Array<Array<string>>,
-  memo?: Map<string, Array<string>>
+  connections: Array<Array<string>>
 ) => {
-  memo = memo || new Map();
+  let memo: Map<string, Array<string>> = new Map();
+
   nodes.map((val: string) => {
     memo?.set(
       val,
@@ -37,19 +37,20 @@ const adjacencylistRepresentationDirected = (
 
 const adjacencylistRepresentationUndirected = (
   nodes: string[],
-  connections: Array<Array<string>>,
-  memo?: Map<string, Array<string>>
+  connections: Array<Array<string>>
 ) => {
+  let memo: Map<string, Array<string>> = new Map();
+
   nodes.forEach((val) => memo.set(val, []));
   connections.forEach(([a, b]) => {
-    memo.get(a).push(b);
-    memo.get(b).push(a);
+    memo.get(a)?.push(b);
+    memo.get(b)?.push(a);
   });
 
   return memo;
 };
 
-const bfshashconnection = (
+const bfshasconnection = (
   list: Map<string, Array<string>>,
   start: string,
   target: string
@@ -75,8 +76,30 @@ const bfshashconnection = (
   }
 };
 
-let graph = adjacencylistRepresentation(airports, routes);
-console.log("====================================");
-console.log(graph);
-console.log("====================================");
-bfshashconnection(graph, "MEX", "LIM");
+const dpshasconnection = (
+  list: Map<string, Array<string>>,
+  start: string,
+  target: string
+): boolean => {
+  let queue: string[] = [start];
+
+  while (queue.length > 0) {
+    let node = queue.shift() !; 
+    console.log(list);
+    
+    let val = list.get(node)?.shift() !;
+
+    if (val == target) {
+      return true;
+    }
+    queue.push(val);
+  }
+  return false
+};
+
+let graph = adjacencylistRepresentationUndirected(airports, routes);
+
+// bfshasconnection(graph, "MEX", "LIM");
+let dpsres = dpshasconnection(graph, "MEX", "LIM");
+
+console.log(dpsres);
