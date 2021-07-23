@@ -36,7 +36,8 @@ console.log("typeof", typeof typeof 10);
  *
  * @param {string} name - Name of the book
  */
-const book =(name:string)=>{
+const book = (name: string) => {};
 
-}
+let reaction = "string";
 
+reaction[0] = 10;
