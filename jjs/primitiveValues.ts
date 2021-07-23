@@ -30,3 +30,13 @@ Number.isNaN(NaN); //true
 // isNaN("Tee"); // NaN
 
 console.log("typeof", typeof typeof 10);
+
+/**
+ *
+ *
+ * @param {string} name - Name of the book
+ */
+const book =(name:string)=>{
+
+}
+
