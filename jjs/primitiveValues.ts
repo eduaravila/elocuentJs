@@ -9,14 +9,24 @@ console.log({}); // used to group related data and code
 console.log([]); // used to group related data and code
 console.log((x: number) => x * 2); // used to refer to code
 
+console.log(typeof {}); // "object"
+console.log(typeof NaN); // "number"
+console.log(typeof []); // "object"
+console.log(typeof ((x: number) => x * 22)); // "function"
+console.log(typeof Object); // "function"
+console.log(typeof 2); // "number"
+console.log(typeof undefined); // "undefined"
+console.log(typeof null); // "object"
 
-
-
-console.log(typeof({})); // "object"
-console.log(typeof([])); // "object"
-console.log(typeof((x: number) => x * 22)); // "function"
-
-
-
-console.log(typeof(2)); // "number"
 // Expressions are questions that JavaScript can answer. JavaScript answers expressions in the only way it knows how—with values.
+
+let value = new Date();
+
+// if (typeof value === "date") {
+//   console.log("This is a date, indeed!");
+// }
+
+Number.isNaN(NaN); //true
+// isNaN("Tee"); // NaN
+
+console.log("typeof", typeof typeof 10);
