@@ -26,6 +26,13 @@ type Snake = Array<Array<number>>;
 const random_range = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
+/**
+ * @param  {number} y
+ * @param  {number} x
+ * @param  {number} size
+ * @returns boolean
+ * this is a link to another function pretty useful shit {@link startgame}
+ */
 const iscorner = (y: number, x: number, size: number): boolean => {
   switch (true) {
     case y == 0 && x == 0:
@@ -363,9 +370,9 @@ const startgame = (
     });
 
     let interval = setInterval(() => {
-        // log the positions
-    //   console.log(fruit);
-    //   console.log(snake);
+      // log the positions
+      //   console.log(fruit);
+      //   console.log(snake);
 
       printplayground(snake, fruit, PLAYGROUND_SIZE);
       check_collision(snake, fruit, current_direction, () => {
