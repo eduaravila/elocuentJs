@@ -40,4 +40,4 @@ const book = (name: string) => {};
 
 let reaction = "string";
 
-reaction[0] = 10;
+// reaction[0] = 10;
